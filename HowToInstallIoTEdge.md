@@ -22,7 +22,7 @@ sudo apt-get install curl
 ```
 
 ---
-## 2. Jetson Nano の OS バージョン管理
+## 2. Jetson Nano の OS バージョン確認
 インストール済みの OS(Ubuntu) のバージョンを確認する。  
 シェル上で以下のコマンドを実行する。  
 ```sh
