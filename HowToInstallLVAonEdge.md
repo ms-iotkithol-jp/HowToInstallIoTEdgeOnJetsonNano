@@ -174,6 +174,9 @@ rtsp://<jetson nano ip address>:554/media/camera-300s.mkv
 Jetson Nano が接続されたローカルネットにつながっている PC 等からもこのRTSPストリームは特段のネットワークアクセス制限がなければ、参照可能である。  
 Live Video Analytics on Edge への入力としても当然使える。  
 
+Jetson Nano の電源を OFF/ON した場合、上記の URL での動画再生はできない状態になっているが、live555 の Docker Container は生成された状態になっていて、docker run コマンドを実行すると、既に存在しているので起動できない旨のエラーが表示される。その場合には、docker container ls コマンドでそのコンテナの Id を確認し、docker container rm -f コマンドでそのコンテナを削除すれば、また、run が可能になる。  
+
+
 ## 5. LVA on Edge の、グラフトポロジー設定・起動  
 基本的な操作方法は、"[モーション検出 - ダイレクトメソッドの呼び出しを使用する](https://docs.microsoft.com/ja-jp/azure/media-services/live-video-analytics-edge/detect-motion-record-video-clips-media-services-quickstart#use-direct-method-calls)"を参考にしていただきたい。  
 Live Video Analytics on Edge 向けに、https://github.com/Azure/live-video-analytics/tree/master/MediaGraph/topologies から沢山のサンプルトポロジーが紹介されている。  

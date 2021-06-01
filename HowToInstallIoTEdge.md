@@ -176,4 +176,6 @@ Azure Portal 側でも、"jetson-nano" が接続されていることを確認�
 1.2 系のラインタイムは、インストール後に iotedge コマンドを実行すると。  
 iotedge: /lib/aarch64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by iotedge)
 n
-と表示されて実行しないところまで確認済み。 GLIBC のバージョンを上げれば対応可能っぽいので後でトライしてみる。  
+と表示されて実行しないところまで確認済み。Jetson Nano の OS は Ubuntu 18.04 Bionic であり、glib-2.27 しか対応していない模様。  
+ GLIBC のバージョンを上げるのは至難の業っぽいので、IoT Edge Runtime の対応、もしくは、NVIDIA さんが Ubuntu 20.x 以上の OS Image を出してくれるまで、IoT Edge 1.2 お試しはおあずけ  
+ 
