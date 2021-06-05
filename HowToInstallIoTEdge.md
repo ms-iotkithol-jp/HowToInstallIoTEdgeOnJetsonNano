@@ -172,10 +172,48 @@ Azure Portal 側でも、"jetson-nano" が接続されていることを確認�
 
 ---
 ## 備考  
-### Azure IoT Edge Runtime 1.2 系のインストールについて 
-1.2 系のラインタイムは、インストール後に iotedge コマンドを実行すると。  
-iotedge: /lib/aarch64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by iotedge)
-n
-と表示されて実行しないところまで確認済み。Jetson Nano の OS は Ubuntu 18.04 Bionic であり、glib-2.27 しか対応していない模様。  
- GLIBC のバージョンを上げるのは至難の業っぽいので、IoT Edge Runtime の対応、もしくは、NVIDIA さんが Ubuntu 20.x 以上の OS Image を出してくれるまで、IoT Edge 1.2 お試しはおあずけ  
- 
+### Azure IoT Edge Runtime 1.2 系のインストールについて  
+2021/6/5 現在、1.2系の最新バージョンは、1.2.0 である。このバージョンの Ubuntu 18.04、ARM64 向けのライブラリをインストールする。  
+Github のリリースページから該当するライブラリの URL をダウンロードする。  
+```sh
+curl -L https://github.com/Azure/azure-iotedge/releases/download/1.2.1/aziot-identity-service_1.2.0-1_ubuntu18.04_arm64.deb -o aziot-identity-service.deb
+curl -L https://github.com/Azure/azure-iotedge/releases/download/1.2.1/aziot-edge_1.2.1-1_ubuntu18.04_arm64.deb -o aziot-edge.deb
+```
+ダウンロードしたライブラリをインストールする。  
+```sh
+sudo dpkg -i ./aziot-identity-service.deb
+sudo dpkg -i ./aziot-edge.deb
+```
+SAS Token による接続セキュリティを、/etc/aziot/config.toml に書き込む。  
+```toml
+[sudo] password for nvidia:
+auto_reprovisioning_mode = "OnErrorOnly"
+imported_master_encryption_key = "/var/lib/iotedge/hsm/enc_keys/edgelet-masterWt5mT2xpO72EPKlt2Tt0Sq4uJCrMvfl2rzzKRB3pnyo_.enc.key"
+hostname = "nvidia-desktop"
+
+[provisioning]
+source = "manual"
+iothub_hostname = "<Iot Hub name>.azure-devices.net"
+device_id = "jetson-nano"
+
+[provisioning.authentication]
+method = "sas"
+
+[provisioning.authentication.device_id_pk]
+value = "<SAS Token>"
+
+[aziot_keys]
+```
+ファイル内の
+- <b><i><u>&lt;IoT Hub name&gt;</u></i></b> を、jetson-nano を登録した、Azure IoT Hub の名前で置き換える  
+- <b><i><u>&lt;SAS Token&gt;</u></i></b> を、jetson-nano のプライマリ、または、セカンダリーの SAS Token で置き換える  
+
+で、編集 ＆ 保存し、次のコマンドを実行して、Azure IoT Edge Runtime を再起動する。  
+```sh
+sudo iotedge system restart
+```
+
+以上で、 1.2系のインストールは完了。  
+
+ライブラリーをダウンロードする際、正しいものを選択すること。違う OS、違う CPU Architecture のものをインストールしてしまうと、依存ライブラリーとの不整合などを起こし、IoT Edge Runtime の起動が失敗する。  
+※ 筆者は実際間違ってしまい、このページの一つ前のバージョンの最後に記載したような目に合ってしまったw
