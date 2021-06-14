@@ -176,6 +176,7 @@ Live Video Analytics on Edge への入力としても当然使える。
 
 Jetson Nano の電源を OFF/ON した場合、上記の URL での動画再生はできない状態になっているが、live555 の Docker Container は生成された状態になっていて、docker run コマンドを実行すると、既に存在しているので起動できない旨のエラーが表示される。その場合には、docker container ls コマンドでそのコンテナの Id を確認し、docker container rm -f コマンドでそのコンテナを削除すれば、また、run が可能になる。  
 
+live555 による動画ストリームの起動は、ネットワークでつながった別の HW 上でも利用可能である。 
 
 ## 5. LVA on Edge の、グラフトポロジー設定・起動  
 基本的な操作方法は、"[モーション検出 - ダイレクトメソッドの呼び出しを使用する](https://docs.microsoft.com/ja-jp/azure/media-services/live-video-analytics-edge/detect-motion-record-video-clips-media-services-quickstart#use-direct-method-calls)"を参考にしていただきたい。  
@@ -184,6 +185,7 @@ Live Video Analytics on Edge 向けに、https://github.com/Azure/live-video-ana
 - [Continuous video recording with Motion Detection](https://github.com/Azure/live-video-analytics/tree/master/MediaGraph/topologies/cvr-with-motion)  
 
 が利用可能である。  
+
 参考までに、このページで紹介されているトポロジーの使用手順を紹介する。 モジュールのダイレクトメソッドの使用方法は、前述の Microsoft Docs の説明を参考にしていただきたい。  
 
 ### cvr-1. GraphTopologySet のコール  
@@ -211,7 +213,9 @@ Payload：
         ]
     }
 }
-```
+```  
+Payload の rtsp://<b><i>rtspsim</i></b>:554/media/camera-300s.mkv の <b><i>rtspsim</i></b> を Jetson Nano の IP アドレスで書き換えること。（別の HW で動画ストリームを生成している場合は、その HW の IP アドレスで書き換える）  
+
 これにより、LVA on Edge の中に、以下のようなグラフインスタンスが作成される。  
 ![CVRWithMotionDetection](https://github.com/Azure/live-video-analytics/raw/master/MediaGraph/topologies/cvr-with-motion/2.0/topology.png)
 
@@ -226,3 +230,12 @@ Payload：
     "name" : "Motion-Capture"
 }
 ```
+
+[Azure IoT Explorer](https://docs.microsoft.com/ja-jp/azure/iot-pnp/howto-use-iot-explorer) で、Jetson Nano から Azure IoT Hub に送信された Motion Detection の結果の確認ができる。  
+![motion detection](images/motion_detection_sample.svg) 
+
+Azure Media Service に関連付けられた、Blob Storage に Motion Detect された時だけの動画が逐次保存されていく。  
+
+![stored video for motion detected](images/stored_video_motion_detected.svg)  
+
+保存された動画を視聴したい場合は、https://github.com/Azure/live-video-analytics/tree/master/utilities/amp-viewer を参照の事。  
