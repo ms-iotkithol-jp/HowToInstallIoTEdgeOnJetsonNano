@@ -167,7 +167,7 @@ Webcam 等で独自の動画を試してみたいところだが、適当な物�
 ```sh
  cd utilities/rtspsim-live555/
  sudo docker build . -t live555:latest
- sudo docker run -p 554:554 -i live555:latest
+ sudo docker run -p 554:554 -v /var/media/:/live/mediaServer/media -i live555:latest
 ```  
 Docker が起動すると、Jetson Nano のローカルネット上のIPアドレスで、/var/media に格納された mks ファイルの RTSPストリームを VLC メディアプレーヤー等で表示ができる。  
 
