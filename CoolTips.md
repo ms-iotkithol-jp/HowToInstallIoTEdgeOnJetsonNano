@@ -2,7 +2,7 @@
 
 ## Reconfigure used micro SD card  
 balenaEtcher で OS Image を焼いた マイクロ SD カードを再度初期化して OS Image を焼く場合、Windows でやろうとすると、ディスク管理で非常にたくさんのパーティションを削除しなければならず、とっても煩雑なので、Jetson Nano（Raspberry Pi も同様）上で初期化すると手間が省ける。  
-SD カードリーダーを USB 接続して、以下のコマンドを実行  
+Jetson Nano に SD カードリーダーを USB 接続して、以下のコマンドを実行  
 ```sh
 sudo fdisk /dev/sda
 ```

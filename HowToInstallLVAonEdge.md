@@ -1,4 +1,9 @@
 # How to install Live Video Analytics on Edge  
+※ 注意  
+- <b><u>2021/7 現在、Live Video Analytics on Edge は非推奨になっています。代替として Azure Video Analyzer on Edge をご利用ください。</u></b>  
+- Azure Video Analyzer on Edge のセットアップ方法は、[HowToSetupAVAonEdge.md](./HowToSetupAVAonEdge.md) を参照の事  
+- 既に Live Video Analytics on Edge をセットアップしている方は、[HowToMigrateFromLVAonEdgeToAVAonEdge.md](./HowToMigrateFromLVAonEdgeToAVAonEdge.md) を参照の事  
+
 LVA on Edge を実機上で動かす方法が、Microsoft Doc の方々に散らばっているので、このページで Step by Step にまとめる。  
 Live Video Analytics on Edge の詳細については、  
 - "[Live Video Analytics on IoT Edge とは](https://docs.microsoft.com/ja-jp/azure/media-services/live-video-analytics-edge/overview)"

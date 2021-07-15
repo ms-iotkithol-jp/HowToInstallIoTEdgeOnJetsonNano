@@ -217,3 +217,10 @@ sudo iotedge system restart
 
 ライブラリーをダウンロードする際、正しいものを選択すること。違う OS、違う CPU Architecture のものをインストールしてしまうと、依存ライブラリーとの不整合などを起こし、IoT Edge Runtime の起動が失敗する。  
 ※ 筆者は実際間違ってしまい、このページの一つ前のバージョンの最後に記載したような目に合ってしまったw
+
+## config ファイルの更新  
+Azure IoT Hub で新しく登録した IoT Edge へのつなぎ変えや、セキュリティ情報の更新などを行う場合は、1.1系と 1.2系で設定ファイルや更新コマンドが異なるので留意すること。  
+|Version|設定ファイル|設定更新反映コマンド|
+|-|-|-|
+|1.1系|/etc/iotedge/config.yaml|sudo systemctl restart iotedge|
+|1.2系|/etc/aziot/config.toml|sudo iotedge config apply|
